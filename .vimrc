@@ -46,3 +46,5 @@ nnoremap <esc>^[ <esc>^[
 
 " Git
 nmap <leader>gb :Gblame<CR>
+nmap <leader>gd :Gdiff<CR>
+nmap <leader>gdd :Gdiffoff<CR>
