@@ -1,0 +1,63 @@
+[submodule "YouCompleteMe"]
+	path = .vim/bundle/YouCompleteMe
+	url = https://github.com/Valloric/YouCompleteMe 
+[submodule "ack.vim"]
+	path = .vim/bundle/ack.vim
+	url = https://github.com/mileszs/ack.vim.git 
+[submodule "ale"]
+	path = .vim/bundle/ale
+	url = https://github.com/w0rp/ale.git 
+[submodule "ctrlp.vim"]
+	path = .vim/bundle/ctrlp.vim
+	url = https://github.com/ctrlpvim/ctrlp.vim 
+[submodule "editorconfig-vim"]
+	path = .vim/bundle/editorconfig-vim
+	url = https://github.com/editorconfig/editorconfig-vim 
+[submodule "golden-ratio"]
+	path = .vim/bundle/golden-ratio
+	url = 	git://github.com/roman/golden-ratio.git 
+[submodule "gruvbox"]
+	path = .vim/bundle/gruvbox
+	url = https://github.com/morhetz/gruvbox.git 
+[submodule "nerdcommenter"]
+	path = .vim/bundle/nerdcommenter
+	url = https://github.com/scrooloose/nerdcommenter.git 
+[submodule "tagbar"]
+	path = .vim/bundle/tagbar
+	url = https://github.com/majutsushi/tagbar 
+[submodule "typescript-vim"]
+	path = .vim/bundle/typescript-vim
+	url = https://github.com/leafgarland/typescript-vim 
+[submodule "vim-airline"]
+	path = .vim/bundle/vim-airline
+	url = https://github.com/vim-airline/vim-airline 
+[submodule "vim-airline-themes"]
+	path = .vim/bundle/vim-airline-themes
+	url = https://github.com/vim-airline/vim-airline-themes 
+[submodule "vim-colors-solarized"]
+	path = .vim/bundle/vim-colors-solarized
+	url = 	git://github.com/altercation/vim-colors-solarized.git 
+[submodule "vim-commentary"]
+	path = .vim/bundle/vim-commentary
+	url = https://github.com/tpope/vim-commentary 
+[submodule "vim-easygrep"]
+	path = .vim/bundle/vim-easygrep
+	url = https://github.com/dkprice/vim-easygrep 
+[submodule "vim-fugitive"]
+	path = .vim/bundle/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git 
+[submodule "vim-gutentags"]
+	path = .vim/bundle/vim-gutentags
+	url = https://github.com/ludovicchabant/vim-gutentags 
+[submodule "vim-javascript"]
+	path = .vim/bundle/vim-javascript
+	url = https://github.com/pangloss/vim-javascript.git 
+[submodule "vim-js-file-import"]
+	path = .vim/bundle/vim-js-file-import
+	url = https://github.com/kristijanhusak/vim-js-file-import 
+[submodule "vim-multiple-cursors"]
+	path = .vim/bundle/vim-multiple-cursors
+	url = https://github.com/terryma/vim-multiple-cursors 
+[submodule "vim-surround"]
+	path = .vim/bundle/vim-surround
+	url = git://github.com/tpope/vim-surround.git 
