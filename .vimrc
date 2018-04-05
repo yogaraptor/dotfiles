@@ -52,3 +52,6 @@ nnoremap <esc>^[ <esc>^[
 nmap <leader>gb :Gblame<CR>
 nmap <leader>gd :Gdiff<CR>
 nmap <leader>gdd :Gdiffoff<CR>
+
+" Searching
+let g:ackprg = "ag --vimgrep"
