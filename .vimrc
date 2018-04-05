@@ -39,6 +39,10 @@ nmap <leader>. :YcmCompleter GoToDefinition<CR>
 " ALE
 let g:ale_sign_error = '👻'
 let g:ale_sign_warning = '🔥'
+let g:ale_fixers = {
+\   'javascript': ['eslint'],
+\}
+nmap <leader>f :ALEFix<CR>
 
 " Clear search highlight with escape
 nnoremap <esc> :noh<return><esc>
