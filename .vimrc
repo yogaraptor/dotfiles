@@ -60,3 +60,7 @@ nmap <leader>gdd :Gdiffoff<CR>
 
 " Searching
 let g:ackprg = "ag --vimgrep"
+nmap <leader>a :Ack!
+
+" Browsing
+nmap <leader>x :Ex<CR>
