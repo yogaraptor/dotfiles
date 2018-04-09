@@ -25,6 +25,10 @@ set background=dark
 :  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 :augroup END
 
+" Search
+set ignorecase
+set smartcase
+
 " Ignore git ignored files when fuzzy finding
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 nmap <leader>p <C-p>
