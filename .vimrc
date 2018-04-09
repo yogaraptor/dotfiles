@@ -11,6 +11,7 @@ nmap <leader>q :q<CR>
 
 " Jumping between files/locations
 nmap <leader>o <C-o>
+nmap <leader>- <C-o>
 nmap <leader>i <C-i>
 nmap <leader>b :b#<CR>
 
