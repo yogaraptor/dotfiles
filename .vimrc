@@ -64,3 +64,6 @@ nmap <leader>a :Ack!
 
 " Browsing
 nmap <leader>x :Ex<CR>
+
+" Make backspace a little more familiar
+set backspace=2
