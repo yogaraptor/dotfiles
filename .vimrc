@@ -77,3 +77,14 @@ nmap <leader>x :Ex<CR>
 
 " Make backspace a little more familiar
 set backspace=2
+
+" Show quicklist
+nmap <leader>` :copen<CR>
+
+" Prettier
+let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue Prettier
+
+" Inline git diffs
+let g:gitgutter_enabled = 0
+let g:gitgutter_highlight_lines = 1
