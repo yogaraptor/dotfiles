@@ -46,12 +46,18 @@ nmap <leader>; <C-w>h
 nmap <leader>. :YcmCompleter GoToDefinition<CR>
 
 " ALE
-let g:ale_sign_error = '👻'
-let g:ale_sign_warning = '🔥'
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '!!'
 let g:ale_fixers = {
 \   'javascript': ['eslint'],
 \}
 nmap <leader>f :ALEFix<CR>
+
+" Jump between errors
+command Lnext try | lnext | catch | lfirst | catch | endtry
+command Lprev try | lprev | catch | llast | catch | endtry
+map <C-k> :Lprev<CR>
+map <C-j> :Lnext<CR>
 
 " Clear search highlight with escape
 nnoremap <esc> :noh<return><esc>
