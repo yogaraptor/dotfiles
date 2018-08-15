@@ -86,5 +86,5 @@ let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue Prettier
 
 " Inline git diffs
-let g:gitgutter_enabled = 0
-let g:gitgutter_highlight_lines = 1
+set updatetime=100
+let g:gitgutter_enabled = 1
