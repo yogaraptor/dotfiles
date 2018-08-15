@@ -14,9 +14,9 @@ nmap <leader>w :w<CR>
 nmap <leader>q :q<CR>
 
 " Jumping between files/locations
-nmap <leader>o <C-o>
+nmap <leader>i <C-o>
 nmap <leader>- <C-o>
-nmap <leader>i <C-i>
+nmap <leader>o <C-i>
 nmap <leader>b :b#<CR>
 
 set background=dark
