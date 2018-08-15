@@ -5,6 +5,10 @@ let mapleader = ','
 
 nmap <C-z> :so ~/.vimrc<CR>
 
+" Open new splits to right and bottom
+set splitright
+set splitbelow
+
 " File stuff
 nmap <leader>w :w<CR>
 nmap <leader>q :q<CR>
