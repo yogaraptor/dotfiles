@@ -58,6 +58,15 @@
 [submodule "vim-multiple-cursors"]
 	path = .vim/bundle/vim-multiple-cursors
 	url = https://github.com/terryma/vim-multiple-cursors 
-[submodule "vim-surround"]
+[submodule ".vim/bundle/async.vim"]
+	path = .vim/bundle/async.vim
+	url = https://github.com/prabirshrestha/async.vim
+[submodule ".vim/bundle/coc.nvim"]
+	path = .vim/bundle/coc.nvim
+	url = https://github.com/neoclide/coc.nvim
+[submodule ".vim/bundle/vim-lsp"]
+	path = .vim/bundle/vim-lsp
+	url = https://github.com/prabirshrestha/vim-lsp
+[submodule ".vim/bundle/vim-surround"]
 	path = .vim/bundle/vim-surround
-	url = git://github.com/tpope/vim-surround.git 
+	url = https://github.com/tpope/vim-surround

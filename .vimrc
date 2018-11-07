@@ -42,9 +42,6 @@ nmap <leader>v :vs<CR>
 nmap <leader>' <C-w>l
 nmap <leader>; <C-w>h
 
-" YCM mappings
-nmap <leader>. :YcmCompleter GoToDefinition<CR>
-
 " ALE
 let g:ale_sign_error = '>>'
 let g:ale_sign_warning = '!!'
@@ -83,8 +80,29 @@ nmap <leader>` :copen<CR>
 
 " Prettier
 let g:prettier#autoformat = 0
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue Prettier
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue Prettier
 
 " Inline git diffs
 set updatetime=100
 let g:gitgutter_enabled = 1
+
+" COC mappings
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+
+" Hide quickfix mapping
+nmap <leader><leader>c :ccl<CR>
+
+" LSP setup (thankyouthankyou https://github.com/prabirshrestha/vim-lsp)
+if executable('typescript-language-server')
+    au User lsp_setup call lsp#register_server({
+      \ 'name': 'typescript-language-server',
+      \ 'cmd': { server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+      \ 'root_uri': { server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_directory(lsp#utils#get_buffer_path(), '.git/..'))},
+      \ 'whitelist': ['typescript', 'javascript', 'javascript.jsx']
+      \ })
+endif
+
+nmap <leader>. :LspDefinition<CR>
