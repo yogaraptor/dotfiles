@@ -42,6 +42,13 @@ nmap <leader>p <C-p>
 nmap <leader>' <C-w>2w
 nmap <leader>; <C-w>1w
 
+" JS Folding (thanks
+" https://medium.com/vim-drops/javascript-folding-on-vim-119c70d2e872)
+set foldmethod=syntax
+set foldcolumn=1
+let javascript_fold=1
+set foldlevelstart=99
+
 " ALE
 let g:ale_sign_error = '>>'
 let g:ale_sign_warning = '!!'
