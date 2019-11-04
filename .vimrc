@@ -1,36 +1,68 @@
-execute pathogen#infect()
+" == VIM PLUG ================================
+call plug#begin('~/.vim/plugged')
+"------------------------ COC ------------------------
+" coc for tslinting, auto complete and prettier
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+" coc extensions
+let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-emmet', 'coc-css', 'coc-html', 'coc-json', 'coc-yank', 'coc-prettier']
+"------------------------ VIM TSX ------------------------
+" by default, if you open tsx file, neovim does not show syntax colors
+" vim-tsx will do all the coloring for jsx in the .tsx file
+Plug 'ianks/vim-tsx'
+"------------------------ VIM TSX ------------------------
+" by default, if you open tsx file, neovim does not show syntax colors
+" typescript-vim will do all the coloring for typescript keywords
+Plug 'leafgarland/typescript-vim'
+"------------------------ THEME ------------------------
+" most importantly you need a good color scheme to write good code :D
+Plug 'morhetz/gruvbox'
 
-" Dein plugin manager
-if &compatible
-  set nocompatible
-endif
-" Add the dein installation directory into runtimepath
-set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
+Plug 'mileszs/ack.vim'
+Plug 'w0rp/ale'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'roman/golden-ratio'
+Plug 'morhetz/gruvbox'
+Plug 'scrooloose/nerdcommenter'
+Plug 'majutsushi/tagbar'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'altercation/vim-colors-solarized'
+Plug 'tpope/vim-commentary'
+Plug 'dkprice/vim-easygrep'
+Plug 'tpope/vim-fugitive'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'pangloss/vim-javascript'
+Plug 'kristijanhusak/vim-js-file-import'
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 
-if dein#load_state('~/.cache/dein')
-  call dein#begin('~/.cache/dein')
+" (Optional) Multi-entry selection UI.
+Plug 'junegunn/fzf'
+Plug 'neoclide/coc.nvim'
+Plug 'tpope/vim-surround'
+Plug 'easymotion/vim-easymotion'
+Plug 'airblade/vim-gitgutter'
+Plug 'mxw/vim-jsx'
+Plug 'prettier/vim-prettier'
+Plug 'tpope/vim-surround'
 
-  call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
-  call dein#add('HerringtonDarkholme/yats.vim')
-  call dein#add('mhartington/nvim-typescript', {'build': './install.sh'})
- " For async completion
-  call dein#add('Shougo/deoplete.nvim')
- " For Denite features
-  call dein#add('Shougo/denite.nvim')
-  if !has('nvim')
-    call dein#add('roxma/nvim-yarp')
-    call dein#add('roxma/vim-hug-neovim-rpc')
-  endif
+call plug#end()
+set runtimepath^=~/.vim/bundle/ctrlp.vim
 
-  call dein#end()
-  call dein#save_state()
-endif
+
+" == VIMPLUG END ================================
+" == AUTOCMD ================================ 
+" by default .ts file are not identified as typescript and .tsx files are not
+" identified as typescript react file, so add following
+au BufNewFile,BufRead *.ts setlocal filetype=typescript
+au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
+" == AUTOCMD END ================================
 
 let mapleader = ','
 :colorscheme gruvbox
-
-nmap <C-z> :so ~/.vimrc<CR>
-
 " Open new splits to right and bottom
 set splitright
 set splitbelow
@@ -140,7 +172,29 @@ endif
 
 nmap <leader>. :LspDefinition<CR>
 
-"let g:prettier#exec_cmd_path = "/Users/tmc47/.nvm/versions/node/v8.11.1/bin/prettier"
+let g:lsp_log_verbose = 1
+let g:lsp_log_file = expand('~/vim-lsp.log')
 
-let g:deoplete#enable_at_startup = 1
+" for asyncomplete.vim log
+let g:asyncomplete_log_file = expand('~/asyncomplete.log')
 
+
+"LanguageClient-neovim
+" Required for operations modifying multiple buffers like rename.
+set hidden
+
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+    \ 'python': ['/usr/local/bin/pyls'],
+    \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
+    \ 'javascript': ['typescript-language-server',  '--stdio'],
+    \ 'javascript.jsx': ['typescript-language-server',  '--stdio'],
+    \ 'typescript': ['typescript-language-server',  '--stdio'],
+    \ 'typescript.tsx': ['typescript-language-server',  '--stdio'],
+    \ }
+
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+" Or map each action separately
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nmap <leader>. :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
