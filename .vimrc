@@ -1,75 +1,35 @@
-" == VIM PLUG ================================
 call plug#begin('~/.vim/plugged')
-"------------------------ COC ------------------------
-" coc for tslinting, auto complete and prettier
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
-" coc extensions
-let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-emmet', 'coc-css', 'coc-html', 'coc-json', 'coc-yank', 'coc-prettier']
-"------------------------ VIM TSX ------------------------
-" by default, if you open tsx file, neovim does not show syntax colors
-" vim-tsx will do all the coloring for jsx in the .tsx file
-Plug 'ianks/vim-tsx'
-"------------------------ VIM TSX ------------------------
-" by default, if you open tsx file, neovim does not show syntax colors
-" typescript-vim will do all the coloring for typescript keywords
-Plug 'leafgarland/typescript-vim'
-"------------------------ THEME ------------------------
-" most importantly you need a good color scheme to write good code :D
+" Color scheme
 Plug 'morhetz/gruvbox'
-
-Plug 'mileszs/ack.vim'
-Plug 'w0rp/ale'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'roman/golden-ratio'
-Plug 'morhetz/gruvbox'
-Plug 'scrooloose/nerdcommenter'
-Plug 'majutsushi/tagbar'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'altercation/vim-colors-solarized'
-Plug 'tpope/vim-commentary'
-Plug 'dkprice/vim-easygrep'
-Plug 'tpope/vim-fugitive'
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'pangloss/vim-javascript'
-Plug 'kristijanhusak/vim-js-file-import'
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
-
-" (Optional) Multi-entry selection UI.
-Plug 'junegunn/fzf'
-Plug 'neoclide/coc.nvim'
-Plug 'tpope/vim-surround'
-Plug 'easymotion/vim-easymotion'
-Plug 'airblade/vim-gitgutter'
-Plug 'mxw/vim-jsx'
+" Completion
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Fuzzy-finding of files
+Plug 'junegunn/fzf', { 'do': './install --bin' }
+Plug 'yuki-ycino/fzf-preview.vim'
+" Prettier for formatting
 Plug 'prettier/vim-prettier'
+Plug 'roman/golden-ratio'
+Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-surround'
-
 call plug#end()
-set runtimepath^=~/.vim/bundle/ctrlp.vim
 
+" Editor settings
+" Relative line numbers (with current line number shown) in insert mode,
+" normal numbers in normal mode
+:set number relativenumber
+:augroup numbertoggle
+:  autocmd!
+:  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+:  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+:augroup END
 
-" == VIMPLUG END ================================
-" == AUTOCMD ================================ 
-" by default .ts file are not identified as typescript and .tsx files are not
-" identified as typescript react file, so add following
-au BufNewFile,BufRead *.ts setlocal filetype=typescript
-au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
-" == AUTOCMD END ================================
-
-let mapleader = ','
+let g:mapleader=','
+set expandtab
+set shiftwidth=2
+set tabstop=2
 :colorscheme gruvbox
-" Open new splits to right and bottom
 set splitright
 set splitbelow
-
-" File stuff
-nmap <leader>w :w<CR>
-nmap <leader>q :q<CR>
 
 " Jumping between files/locations
 nmap <leader>i <C-o>
@@ -77,28 +37,9 @@ nmap <leader>- <C-o>
 nmap <leader>o <C-i>
 nmap <leader>b :b#<CR>
 
-set background=dark
-" Line numbers
-:set number relativenumber
-
-:augroup numbertoggle
-:  autocmd!
-:  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-:  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-:augroup END
-
 " Search
 set ignorecase
 set smartcase
-
-" Ignore git ignored files when fuzzy finding
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
-nmap <leader>p <C-p>
-
-" Switching panes. I rarely have more than two open - using 1w/2w instead of
-" l/h means this works with both vertical and horizontal splits
-nmap <leader>' <C-w>2w
-nmap <leader>; <C-w>1w
 
 " JS Folding (thanks
 " https://medium.com/vim-drops/javascript-folding-on-vim-119c70d2e872)
@@ -107,94 +48,84 @@ set foldcolumn=1
 let javascript_fold=1
 set foldlevelstart=99
 
-" ALE
-let g:ale_sign_error = '>>'
-let g:ale_sign_warning = '!!'
-let g:ale_fixers = {
-\   'javascript': ['eslint'],
-\}
-nmap <leader>f :ALEFix<CR>
 
-" Jump between errors
-command Lnext try | lnext | catch | lfirst | catch | endtry
-command Lprev try | lprev | catch | llast | catch | endtry
-map <C-k> :Lprev<CR>
-map <C-j> :Lnext<CR>
+"""""""""""""""""""""""""""""""""""
+" Plugin settings
+"""""""""""""""""""""""""""""""""""
+" Use ripgrep for FZF file list
+let g:fzf_preview_filelist_command = 'rg --files --hidden --follow --glob "!.git/*"'
 
-" Clear search highlight with escape
-nnoremap <esc> :noh<return><esc>
-nnoremap <esc>^[ <esc>^[
+" COC configuration
+" TextEdit might fail if hidden is not set.
+set hidden
 
-" Git
-nmap <leader>gb :Gblame<CR>
-nmap <leader>gd :Gdiff<CR>
-nmap <leader>gdd :Gdiffoff<CR>
+" Some servers have issues with backup files, see #649.
+set nobackup
+set nowritebackup
 
-" Searching
-let g:ackprg = "ag --vimgrep"
-nmap <leader>a :Ack! 
+" Give more space for displaying messages.
+set cmdheight=2
 
-" Browsing
-nmap <leader>x :Ex<CR>
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
 
-" Make backspace a little more familiar
-set backspace=2
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
 
-" Show quicklist
-nmap <leader>` :copen<CR>
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+if has('patch8.1.1068')
+  " Use `complete_info` if your (Neo)Vim version supports it.
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  imap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Prettier
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue Prettier
-
-" Inline git diffs
-set updatetime=100
-let g:gitgutter_enabled = 1
-
-" COC mappings
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-
-" Hide quickfix mapping
-nmap <leader><leader>c :ccl<CR>
-
-" LSP setup (thankyouthankyou https://github.com/prabirshrestha/vim-lsp)
-if executable('typescript-language-server')
-    au User lsp_setup call lsp#register_server({
-      \ 'name': 'typescript-language-server',
-      \ 'cmd': { server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
-      \ 'root_uri': { server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_directory(lsp#utils#get_buffer_path(), '.git/..'))},
-      \ 'whitelist': ['typescript', 'javascript', 'javascript.jsx']
-      \ })
-endif
-
-nmap <leader>. :LspDefinition<CR>
-
-let g:lsp_log_verbose = 1
-let g:lsp_log_file = expand('~/vim-lsp.log')
-
-" for asyncomplete.vim log
-let g:asyncomplete_log_file = expand('~/asyncomplete.log')
-
-
-"LanguageClient-neovim
-" Required for operations modifying multiple buffers like rename.
-set hidden
-
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-    \ 'python': ['/usr/local/bin/pyls'],
-    \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
-    \ 'javascript': ['typescript-language-server',  '--stdio'],
-    \ 'javascript.jsx': ['typescript-language-server',  '--stdio'],
-    \ 'typescript': ['typescript-language-server',  '--stdio'],
-    \ 'typescript.tsx': ['typescript-language-server',  '--stdio'],
-    \ }
-
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-" Or map each action separately
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-nmap <leader>. :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+""""""""""""""""""""""""""""""""""""
+" Key mappings
+""""""""""""""""""""""""""""""""""""
+" Save and quit
+nmap <leader>w :w<CR>
+nmap <leader>q :q<CR>
+" FZF
+nmap <leader>p :FzfPreviewProjectFiles<CR> 
+nmap <leader><leader>p :FzfPreview<CR> 
+nmap <leader>g :FzfPreviewGitStatus<CR> 
+" COC
+nmap <leader>. <Plug>(coc-definition)
+nmap <leader>rn <Plug>(coc-rename)
+nmap <leader><leader>r <Plug>(coc-references)
+" Switching panes. I rarely have more than two open - using 1w/2w instead of
+" l/h means this works with both vertical and horizontal splits
+nmap <leader>' <C-w>2w
+nmap <leader>; <C-w>1w
+" File explorer
+nmap <leader>x :Ex<CR>
