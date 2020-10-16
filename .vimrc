@@ -3,14 +3,16 @@ call plug#begin('~/.vim/plugged')
 Plug 'morhetz/gruvbox'
 " Completion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 " Fuzzy-finding of files
-Plug 'junegunn/fzf', { 'do': './install --bin' }
-Plug 'yuki-ycino/fzf-preview.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release', 'do': ':UpdateRemotePlugins' }
 " Prettier for formatting
 Plug 'prettier/vim-prettier'
 Plug 'roman/golden-ratio'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-surround'
+Plug 'sheerun/vim-polyglot'
 call plug#end()
 
 " Editor settings
