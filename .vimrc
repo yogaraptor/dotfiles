@@ -13,6 +13,10 @@ Plug 'roman/golden-ratio'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-surround'
 Plug 'sheerun/vim-polyglot'
+Plug 'mileszs/ack.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
 " Editor settings
@@ -79,6 +83,11 @@ set shortmess+=c
 " diagnostics appear/become resolved.
 set signcolumn=yes
 
+" Use AG for search
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
@@ -111,6 +120,14 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 " Prettier
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue Prettier
+
+" Airline
+let g:airline_theme = 'powerlineish'
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#branch#enabled = 1
+
+
 """"""""""""""""""""""""""""""""""""
 " Key mappings
 """"""""""""""""""""""""""""""""""""
@@ -131,3 +148,10 @@ nmap <leader>' <C-w>2w
 nmap <leader>; <C-w>1w
 " File explorer
 nmap <leader>x :Ex<CR>
+" Global search (using  ack.vim)
+nmap <leader>a :Ack<Space>
+" Close quickfix
+nmap <leader><leader>c :ccl<CR>
+" Jump to problems
+nmap <c-j> :lnext<CR>
+nmap <c-k> :lprev<CR>
