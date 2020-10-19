@@ -43,6 +43,9 @@ nmap <leader>- <C-o>
 nmap <leader>o <C-i>
 nmap <leader>b :b#<CR>
 
+" Default file list to tree view
+let g:netrw_liststyle = 3
+
 " Search
 set ignorecase
 set smartcase
