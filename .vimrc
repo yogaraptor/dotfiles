@@ -40,11 +40,17 @@ set splitbelow
 
 " Theming
 :colorscheme gruvbox
+" Colour numbers below reference https://github.com/morhetz/gruvbox/blob/master/colors/gruvbox.vim#L88
 " Match gutters to background
 :highlight SignColumn ctermbg=235
 :highlight FoldColumn ctermbg=235
 :highlight CursorLineNr ctermbg=235
 :highlight LineNr ctermfg=239
+" Minimise tab colouring (highlight groups here
+" https://github.com/ap/vim-buftabline/blob/master/plugin/buftabline.vim#L32-L35)
+:highlight BufTabLineCurrent ctermbg=235 ctermfg=228
+:highlight BufTabLineActive ctermbg=235 ctermfg=246
+:highlight BufTabLineHidden ctermbg=235 ctermfg=246
 
 " Jumping between files/locations
 nmap <leader>i <C-o>
