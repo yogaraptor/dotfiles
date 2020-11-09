@@ -7,6 +7,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Fuzzy-finding of files
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release', 'do': ':UpdateRemotePlugins' }
+" Show buffers in tabline
+Plug 'ap/vim-buftablin'
 " Prettier for formatting
 Plug 'prettier/vim-prettier'
 Plug 'roman/golden-ratio'
@@ -15,8 +17,8 @@ Plug 'tpope/vim-surround'
 Plug 'sheerun/vim-polyglot'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-fugitive'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
+Plug 'styled-components/vim-styled-components'
 call plug#end()
 
 " Editor settings
@@ -124,11 +126,17 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue Prettier
 
-" Airline
-let g:airline_theme = 'powerlineish'
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#branch#enabled = 1
+" Lightline
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+      \ }
 
 
 """"""""""""""""""""""""""""""""""""
@@ -144,11 +152,15 @@ nmap <leader>g :FzfPreviewGitStatus<CR>
 " COC
 nmap <leader>. <Plug>(coc-definition)
 nmap <leader>rn <Plug>(coc-rename)
+nmap <leader>gr <Plug>(coc-references)
 nmap <leader><leader>r <Plug>(coc-references)
 " Switching panes. I rarely have more than two open - using 1w/2w instead of
 " l/h means this works with both vertical and horizontal splits
 nmap <leader>' <C-w>2w
 nmap <leader>; <C-w>1w
+" Switching "tabs" (really buffers, which I show in tabline)
+nmap <C-n> :bn<CR>
+nmap <C-n> :bn<CR>
 " File explorer
 nmap <leader>x :Ex<CR>
 " Global search (using  ack.vim)
