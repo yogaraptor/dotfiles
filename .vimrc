@@ -35,9 +35,16 @@ let g:mapleader=','
 set expandtab
 set shiftwidth=2
 set tabstop=2
-:colorscheme gruvbox
 set splitright
 set splitbelow
+
+" Theming
+:colorscheme gruvbox
+" Match gutters to background
+:highlight SignColumn ctermbg=235
+:highlight FoldColumn ctermbg=235
+:highlight CursorLineNr ctermbg=235
+:highlight LineNr ctermfg=239
 
 " Jumping between files/locations
 nmap <leader>i <C-o>
@@ -55,7 +62,8 @@ set smartcase
 " JS Folding (thanks
 " https://medium.com/vim-drops/javascript-folding-on-vim-119c70d2e872)
 set foldmethod=syntax
-set foldcolumn=1
+" Don't actually want to see the gutter though - foldlines are enough
+set foldcolumn=0
 let javascript_fold=1
 set foldlevelstart=99
 
