@@ -8,7 +8,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release', 'do': ':UpdateRemotePlugins' }
 " Show buffers in tabline
-Plug 'ap/vim-buftablin'
+Plug 'ap/vim-buftabline'
 " Prettier for formatting
 Plug 'prettier/vim-prettier'
 Plug 'roman/golden-ratio'
