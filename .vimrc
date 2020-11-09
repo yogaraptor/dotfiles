@@ -77,6 +77,10 @@ let g:fzf_preview_filelist_command = 'rg --files --hidden --follow --glob "!.git
 " COC configuration
 " TextEdit might fail if hidden is not set.
 set hidden
+" CoC is supposed to default tsx files to typescriptreact, but doesn't for me
+let g:coc_filetype_map = {
+\ 'tsx': 'typescriptreact',
+\ }
 
 " Some servers have issues with backup files, see #649.
 set nobackup
