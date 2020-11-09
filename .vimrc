@@ -166,7 +166,11 @@ nmap <leader>q :q<CR>
 " FZF
 nmap <leader>p :FzfPreviewProjectFiles<CR> 
 nmap <leader><leader>p :FzfPreview<CR> 
-nmap <leader>g :FzfPreviewGitStatus<CR> 
+nmap <leader><leader>g :FzfPreviewGitStatus<CR> 
+" Fugitive
+nmap <leader>g :Git<CR>
+nmap <leader>gd :Gdiffsplit<CR>
+
 " COC
 nmap <leader>. <Plug>(coc-definition)
 nmap <leader>rn <Plug>(coc-rename)
