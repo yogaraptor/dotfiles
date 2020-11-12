@@ -122,3 +122,7 @@ alias fnm="find . -name node_modules -type d -prune | xargs du -chs"
 setopt noautomenu
 setopt nomenucomplete
 
+# Setup nvm
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
