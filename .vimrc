@@ -171,6 +171,7 @@ nmap <leader><leader>g :FzfPreviewGitStatus<CR>
 " Fugitive
 nmap <leader>g :Git<CR>
 nmap <leader>gd :Gdiffsplit<CR>
+nmap <leader>gs :Git switch 
 
 " COC
 nmap <leader>. <Plug>(coc-definition)
