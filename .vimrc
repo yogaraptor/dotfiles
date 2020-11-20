@@ -194,3 +194,5 @@ nmap <leader><leader>c :ccl<CR>
 " Jump to problems
 nmap <c-j> :lnext<CR>
 nmap <c-k> :lprev<CR>
+" Clear search highlight
+nmap <silent> <Esc> :noh<CR>
