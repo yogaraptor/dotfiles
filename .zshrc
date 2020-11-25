@@ -126,3 +126,16 @@ setopt nomenucomplete
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
+# Start SSH agent
+if [ -f ~/.ssh/agent.env ] ; then
+    . ~/.ssh/agent.env > /dev/null
+    if ! kill -0 $SSH_AGENT_PID > /dev/null 2>&1; then
+        echo "Stale agent file found. Spawning a new agent. "
+        eval `ssh-agent | tee ~/.ssh/agent.env`
+        ssh-add
+    fi
+else
+    echo "Starting ssh-agent"
+    eval `ssh-agent | tee ~/.ssh/agent.env`
+    ssh-add
+fi
