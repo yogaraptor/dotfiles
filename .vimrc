@@ -202,3 +202,10 @@ nmap <c-j> :lnext<CR>
 nmap <c-k> :lprev<CR>
 " Clear search highlight
 nmap <silent> <Esc> :noh<CR>
+" Add mappings for selecting and commenting folds
+" Add fold textobject
+vnoremap af :<C-U>silent! normal! [zV]z<CR>
+" Add operation-pending to select fold
+omap af :normal Vaf<CR>
+" Add mapping to comment current fold
+map <leader>cf Vaf<leader>cs
