@@ -190,7 +190,7 @@ nmap <leader>' <C-w>l
 nmap <leader>; <C-w>h
 " Switching "tabs" (really buffers, which I show in tabline)
 nmap <C-n> :bn<CR>
-nmap <C-n> :bn<CR>
+nmap <C-z> :bp<CR>
 " File explorer
 nmap <leader>x :Ex<CR>
 " Global search (using  ack.vim)
