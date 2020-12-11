@@ -185,10 +185,9 @@ nmap <leader>. <Plug>(coc-definition)
 nmap <leader>rn <Plug>(coc-rename)
 nmap <leader>gr <Plug>(coc-references)
 nmap <leader><leader>r <Plug>(coc-references)
-" Switching panes. I rarely have more than two open - using 1w/2w instead of
-" l/h means this works with both vertical and horizontal splits
-nmap <leader>' <C-w>2w
-nmap <leader>; <C-w>1w
+" Switching vsplits 
+nmap <leader>' <C-w>l
+nmap <leader>; <C-w>h
 " Switching "tabs" (really buffers, which I show in tabline)
 nmap <C-n> :bn<CR>
 nmap <C-n> :bn<CR>
