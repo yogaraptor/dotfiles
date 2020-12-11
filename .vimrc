@@ -88,6 +88,13 @@ set hidden
 let g:coc_filetype_map = {
 \ 'tsx': 'typescriptreact',
 \ }
+" The above doesn't seem to work in later versions. autocmd alternative:
+augroup ReactFiletypes
+  autocmd!
+  autocmd BufRead,BufNewFile *.jsx set filetype=javascriptreact
+  autocmd BufRead,BufNewFile *.tsx set filetype=typescriptreact
+augroup END
+
 
 " Some servers have issues with backup files, see #649.
 set nobackup
