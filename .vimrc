@@ -1,6 +1,7 @@
 call plug#begin('~/.vim/plugged')
-" Color scheme
+" Color schemes
 Plug 'morhetz/gruvbox'
+Plug 'arcticicestudio/nord-vim'
 " Completion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
@@ -11,6 +12,8 @@ Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release', 'do': ':UpdateRemotePl
 Plug 'ap/vim-buftabline'
 " Prettier for formatting
 Plug 'prettier/vim-prettier'
+" ALE for linting
+Plug 'w0rp/ale'
 Plug 'roman/golden-ratio'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-surround'
@@ -20,6 +23,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'itchyny/lightline.vim'
 Plug 'styled-components/vim-styled-components'
+Plug 'moll/vim-bbye'
 call plug#end()
 
 " Editor settings
@@ -41,6 +45,12 @@ set splitbelow
 
 " Theming
 :colorscheme gruvbox
+highlight Comment cterm=italic gui=italic
+if (has("termguicolors"))
+  set termguicolors
+endif
+" Highlight active line
+set cursorline
 " Colour numbers below reference https://github.com/morhetz/gruvbox/blob/master/colors/gruvbox.vim#L88
 " Match gutters to background
 :highlight SignColumn ctermbg=235
@@ -152,6 +162,14 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue Prettier
 
+" Eslint
+let g:ale_linters = {
+  \   'javascript': ['eslint'],
+  \   'javascriptreact': ['eslint'],
+  \   'typescript': ['eslint'],
+  \   'typescriptreact': ['eslint'],
+  \}
+
 " Lightline
 let g:lightline = {
       \ 'colorscheme': 'wombat',
@@ -171,6 +189,8 @@ let g:lightline = {
 " Save and quit
 nmap <leader>w :w<CR>
 nmap <leader>q :q<CR>
+" Close files using bbye
+nmap <leader><leader>q :Bdelete<CR>
 " FZF
 nmap <leader>p :FzfPreviewProjectFiles<CR> 
 nmap <leader><leader>p :FzfPreview<CR> 
@@ -185,6 +205,13 @@ nmap <leader>. <Plug>(coc-definition)
 nmap <leader>rn <Plug>(coc-rename)
 nmap <leader>gr <Plug>(coc-references)
 nmap <leader><leader>r <Plug>(coc-references)
+" Scroll coc popups
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+nnoremap <expr><C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+nnoremap <expr><C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+inoremap <expr><C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<Right>"
+inoremap <expr><C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<Left>"
+
 " Switching vsplits 
 nmap <leader>' <C-w>l
 nmap <leader>; <C-w>h
@@ -195,11 +222,12 @@ nmap <C-z> :bp<CR>
 nmap <leader>x :Ex<CR>
 " Global search (using  ack.vim)
 nmap <leader>a :Ack<Space>
-" Close quickfix
-nmap <leader><leader>c :ccl<CR>
-" Jump to problems
-nmap <c-j> :lnext<CR>
-nmap <c-k> :lprev<CR>
+" Open/close quickfix
+nmap <leader><leader>c :copen<CR>
+nmap <leader><leader><leader>c :cclose<CR>
+" Jump to lint issues
+nmap <silent> <C-S-j> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
 " Clear search highlight
 nmap <silent> <Esc> :noh<CR>
 " Add mappings for selecting and commenting folds
