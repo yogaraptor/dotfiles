@@ -262,6 +262,12 @@ require('lazy').setup({
     'prettier/vim-prettier',
   },
 
+
+  -- TOM: add debugger support
+  {
+    'mfussenegger/nvim-dap'
+  },
+
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
@@ -698,3 +704,34 @@ cmp.setup {
 -- Format using prettier on save
 vim.g['prettier#autoformat'] = 1
 vim.g['prettier#autoformat_require_pragma'] = 0
+
+-- TOM: configure debugging for Node (see https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#javascript)
+local dap = require('dap')
+dap.adapters.node2 = {
+  type = 'executable',
+  command = 'node',
+  args = {os.getenv('HOME') .. '/dev/microsoft/vscode-node-debug2/out/src/nodeDebug.js'},
+}
+local nodeDebugConfig = {
+  {
+    name = 'Launch',
+    type = 'node2',
+    request = 'launch',
+    program = '${file}',
+    cwd = vim.fn.getcwd(),
+    sourceMaps = true,
+    protocol = 'inspector',
+    console = 'integratedTerminal',
+  },
+  {
+    -- For this to work you need to make sure the node process is started with the `--inspect` flag.
+    name = 'Attach to process',
+    type = 'node2',
+    request = 'attach',
+    processId = require'dap.utils'.pick_process,
+  },
+}
+dap.configurations.javascript = nodeDebugConfig
+dap.configurations.javascriptreact = nodeDebugConfig
+dap.configurations.typescript = nodeDebugConfig
+dap.configurations.typescriptreact = nodeDebugConfig
