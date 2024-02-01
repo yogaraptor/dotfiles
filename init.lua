@@ -44,6 +44,16 @@ P.S. You can delete this when you're done too. It's your config now :)
 vim.g.mapleader = ','
 vim.g.maplocalleader = ','
 
+-- TOM: set formatting defaults
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
+
+
+-- TOM: relative line numbers
+vim.wo.relativenumber = true
+vim.wo.nu = 'rnu'
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
