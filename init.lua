@@ -265,6 +265,14 @@ require('lazy').setup({
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
     build = ':TSUpdate',
+
+    config = function()
+      require('ufo').setup({
+        provider_selector = function(bufnr, filetype, buftype)
+            return {'treesitter', 'indent'}
+        end
+      })
+    end
   },
 
   -- TOM: add prettier support
@@ -272,10 +280,23 @@ require('lazy').setup({
     'prettier/vim-prettier',
   },
 
+  -- TOM: add markdown support
+  {
+    'ixru/nvim-markdown'
+  },
+
+  -- TOM: add folding
+  {
+    'kevinhwang91/nvim-ufo',
+    dependencies = { 'kevinhwang91/promise-async' }
+  },
 
   -- TOM: add debugger support
   {
     'mfussenegger/nvim-dap'
+  },
+  {
+    'rcarriga/nvim-dap-ui'
   },
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
@@ -535,6 +556,13 @@ vim.defer_fn(function()
       },
     },
   }
+
+  vim.filetype.add({
+    extension = {
+      mdx = "mdx",
+    },
+  })
+  vim.treesitter.language.register("markdown", "mdx")
 end, 0)
 
 -- [[ Configure LSP ]]
@@ -745,3 +773,18 @@ dap.configurations.javascript = nodeDebugConfig
 dap.configurations.javascriptreact = nodeDebugConfig
 dap.configurations.typescript = nodeDebugConfig
 dap.configurations.typescriptreact = nodeDebugConfig
+
+require("dapui").setup()
+
+-- TOM: setup folding
+vim.o.foldcolumn = '1' -- '0' is not bad
+vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+
+vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
+vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
+-- Option 3: treesitter as a main provider instead
+-- Only depend on `nvim-treesitter/queries/filetype/folds.scm`,
+-- performance and stability are better than `foldmethod=nvim_treesitter#foldexpr()`
+--
