@@ -89,6 +89,17 @@ require('lazy').setup({
   -- Surround plugin
   'tpope/vim-surround',
 
+  -- File explorer
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+    },
+  },
+
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   {
@@ -106,6 +117,34 @@ require('lazy').setup({
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
     },
+  },
+
+  {
+    "mfussenegger/nvim-lint",
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      local lint = require("lint")
+
+      lint.linters_by_ft = {
+        javascript = { "eslint_d" },
+        typescript = { "eslint_d" },
+        javascriptreact = { "eslint_d" },
+        typescriptreact = { "eslint_d" },
+        svelte = { "eslint_d" },
+        python = { "pylint" },
+      }
+
+      vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+        group = lint_augroup,
+        callback = function()
+          lint.try_lint()
+        end,
+      })
+
+      vim.keymap.set("n", "<leader>l", function()
+        lint.try_lint()
+      end, { desc = "Trigger linting for current file" })
+    end,
   },
 
   {
@@ -203,11 +242,11 @@ require('lazy').setup({
   },
 
   {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
+    -- Color scheme
+    'ellisonleao/gruvbox.nvim',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'onedark'
+      vim.cmd.colorscheme 'gruvbox'
     end,
   },
 
@@ -255,7 +294,16 @@ require('lazy').setup({
           return vim.fn.executable 'make' == 1
         end,
       },
+      {
+        "nvim-telescope/telescope-live-grep-args.nvim",
+        -- This will not install any breaking changes.
+        -- For major updates, this must be adjusted manually.
+        version = "^1.0.0",
+      },
     },
+    config = function()
+      require("telescope").load_extension("live_grep_args")
+    end
   },
 
   {
@@ -782,9 +830,41 @@ vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decr
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 
+-- TOM: highlight current line
+vim.o.cursorline = true
+
 vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
 vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
 -- Option 3: treesitter as a main provider instead
 -- Only depend on `nvim-treesitter/queries/filetype/folds.scm`,
 -- performance and stability are better than `foldmethod=nvim_treesitter#foldexpr()`
 --
+--
+
+-- TOM: Live grep with args mapped to ,sga
+vim.keymap.set('n', '<leader>sga', require('telescope').extensions.live_grep_args.live_grep_args)
+
+-- TOM: Map yank remote code line URL (e.g. Github) to ,gy
+vim.keymap.set('n', '<leader>gy', ':.GBrowse!<CR>')
+vim.keymap.set('x', '<leader>gy', "'<'>GBrowse!<CR>")
+
+-- TOM: file tree mappings
+vim.keymap.set('n', '<leader>e', ':Neotree<CR>')
+vim.keymap.set('n', '<leader>er', ':Neotree reveal<CR>')
+
+-- require('lspconfig').eslint.setup({
+--   --- ...
+--   on_attach = function(client, bufnr)
+--     vim.api.nvim_create_autocmd("BufWritePre", {
+--       buffer = bufnr,
+--       command = "EslintFixAll",
+--     })
+--   end,
+-- })
+
+local util = require 'lspconfig.util'
+
+require('lspconfig').tsserver.setup{
+   root_dir = util.root_pattern('.git')(fname)
+}
+
