@@ -83,6 +83,9 @@ require('lazy').setup({
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
 
+  -- Paired mappings (e.g. [q ]q for cprev/next)
+  'tpope/vim-unimpaired',
+
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
@@ -300,9 +303,11 @@ require('lazy').setup({
         -- For major updates, this must be adjusted manually.
         version = "^1.0.0",
       },
+      { 'nvim-telescope/telescope-smart-history.nvim' },
     },
     config = function()
       require("telescope").load_extension("live_grep_args")
+      require("telescope").load_extension("smart_history")
     end
   },
 
@@ -454,12 +459,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
+local actions = require('telescope.actions')
 require('telescope').setup {
   defaults = {
     mappings = {
       i = {
         ['<C-u>'] = false,
         ['<C-d>'] = false,
+        ['<S-Up>'] = actions.cycle_history_prev,
+        ['<S-Down>'] = actions.cycle_history_next,
       },
     },
   },
@@ -527,7 +535,7 @@ vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc
 vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
+-- vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sG', ':LiveGrepGitRoot<cr>', { desc = '[S]earch by [G]rep on Git Root' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
@@ -841,16 +849,24 @@ vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
 --
 --
 
--- TOM: Live grep with args mapped to ,sga
-vim.keymap.set('n', '<leader>sga', require('telescope').extensions.live_grep_args.live_grep_args)
+-- TOM: Live grep with args mapped to ,sg
+vim.keymap.set('n', '<leader>sg', require('telescope').extensions.live_grep_args.live_grep_args)
 
 -- TOM: Map yank remote code line URL (e.g. Github) to ,gy
 vim.keymap.set('n', '<leader>gy', ':.GBrowse!<CR>')
 vim.keymap.set('x', '<leader>gy', "'<'>GBrowse!<CR>")
 
+-- TOM: :Git shortcut
+vim.keymap.set('n', '<leader><leader>g', ":Git<CR>")
+
 -- TOM: file tree mappings
 vim.keymap.set('n', '<leader>e', ':Neotree<CR>')
 vim.keymap.set('n', '<leader>er', ':Neotree reveal<CR>')
+
+-- TOM: quickfix mappings
+vim.keymap.set('n', '<leader>cf', ':cexpr []<CR>')
+vim.keymap.set('n', '<leader>co', ':colder<CR>')
+vim.keymap.set('n', '<leader>cn', ':cnewer<CR>')
 
 -- require('lspconfig').eslint.setup({
 --   --- ...
