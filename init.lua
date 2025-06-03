@@ -137,6 +137,20 @@ require('lazy').setup({
         python = { "pylint" },
       }
 
+      local eslint = lint.linters.eslint_d
+
+      eslint.args = {
+        -- Ensure eslint_d works even when no eslintrc present in project - see https://github.com/mfussenegger/nvim-lint/issues/462#issuecomment-1986702915
+        "--no-warn-ignored", 
+        "--format",
+        "json",
+        "--stdin",
+        "--stdin-filename",
+        function()
+          return vim.api.nvim_buf_get_name(0)
+        end,
+      }
+
       vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
         group = lint_augroup,
         callback = function()
@@ -147,7 +161,7 @@ require('lazy').setup({
       vim.keymap.set("n", "<leader>l", function()
         lint.try_lint()
       end, { desc = "Trigger linting for current file" })
-    end,
+    end
   },
 
   {
