@@ -1,2 +1,13 @@
 vim.keymap.set("n", "<leader>gb", GitCommitsFromBranch, { desc = "Telescope: Git commits from branch" })
 
+function GitCommitsFromBranch()
+  vim.ui.input({ prompt = "Enter branch name: " }, function(branch)
+    if branch ~= nil and branch ~= "" then
+      builtin.git_commits({
+        git_command = { "git", "log", "--oneline", branch }
+      })
+    else
+      print("No branch name provided")
+    end
+  end)
+end
