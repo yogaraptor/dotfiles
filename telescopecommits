@@ -1,0 +1,2 @@
+vim.keymap.set("n", "<leader>gb", GitCommitsFromBranch, { desc = "Telescope: Git commits from branch" })
+
